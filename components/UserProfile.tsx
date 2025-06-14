@@ -15,14 +15,14 @@ export default function UserProfile({ user }: UserProfileProps) {
     : 100;
 
   return (
-    <div className="bg-white rounded-lg shadow-lg p-6 max-w-md mx-auto">
+    <div className="glass rounded-2xl shadow-xl p-8 max-w-md mx-auto glass-hover">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-2xl font-bold text-gray-800">{user.name}</h2>
+        <h2 className="text-3xl font-bold">{user.name}</h2>
         <div className="text-right">
-          <div className="text-sm text-gray-600">Série</div>
+          <div className="text-sm text-rpm-gray-600 font-medium">Série</div>
           <div className="flex items-center gap-1">
-            <span className="text-2xl font-bold text-rpm-accent">{user.streak}</span>
-            <span className="text-lg">🔥</span>
+            <span className="text-3xl font-black text-rpm-accent">{user.streak}</span>
+            <span className="text-2xl animate-pulse">🔥</span>
           </div>
         </div>
       </div>
@@ -30,29 +30,29 @@ export default function UserProfile({ user }: UserProfileProps) {
       <div className="mb-6">
         <div className="flex items-center justify-between mb-2">
           <div>
-            <span className="text-lg font-semibold" style={{ color: currentLevel.color }}>
+            <span className="text-xl font-bold" style={{ color: currentLevel.color }}>
               Level {currentLevel.level}: {currentLevel.title}
             </span>
           </div>
-          <div className="text-sm text-gray-600">
+          <div className="text-lg font-semibold text-rpm-gray-700">
             {user.totalXP} XP
           </div>
         </div>
 
-        <div className="relative h-6 bg-gray-200 rounded-full overflow-hidden">
+        <div className="relative h-8 bg-rpm-gray-200/50 rounded-full overflow-hidden shadow-inner">
           <div 
-            className="absolute h-full bg-gradient-to-r from-rpm-primary to-rpm-secondary transition-all duration-500 ease-out"
+            className="absolute h-full bg-gradient-to-r from-rpm-primary to-rpm-secondary transition-all duration-500 ease-out rounded-full shimmer"
             style={{ width: `${progressPercentage}%` }}
           />
-          <div className="absolute inset-0 flex items-center justify-center text-sm font-medium text-white mix-blend-difference">
+          <div className="absolute inset-0 flex items-center justify-center text-sm font-bold text-white drop-shadow-md">
             {xpForNextLevel > 0 ? `${xpForNextLevel} XP do další úrovně` : 'Max úroveň!'}
           </div>
         </div>
       </div>
 
       {nextLevel && (
-        <div className="text-center text-sm text-gray-600">
-          Další úroveň: <span className="font-semibold" style={{ color: nextLevel.color }}>
+        <div className="text-center text-rpm-gray-600">
+          Další úroveň: <span className="font-bold text-lg" style={{ color: nextLevel.color }}>
             {nextLevel.title}
           </span>
         </div>

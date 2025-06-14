@@ -56,6 +56,10 @@ export function useRPMGame() {
     setPlans([...plans, newPlan]);
   }, [plans, user.id, setPlans]);
 
+  const deletePlan = useCallback((planId: string) => {
+    setPlans(plans.filter(p => p.id !== planId));
+  }, [plans, setPlans]);
+
   const completeAction = useCallback((planId: string, actionId: string) => {
     const plan = plans.find(p => p.id === planId);
     if (!plan) return;
@@ -121,6 +125,7 @@ export function useRPMGame() {
     user,
     plans,
     addPlan,
+    deletePlan,
     completeAction,
     showLevelUp,
   };

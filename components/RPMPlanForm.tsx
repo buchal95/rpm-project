@@ -54,31 +54,31 @@ export default function RPMPlanForm({ onSubmit }: RPMPlanFormProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-lg p-6 max-w-2xl mx-auto">
-      <h2 className="text-2xl font-bold text-gray-800 mb-6">Vytvořit nový RPM plán</h2>
+    <form onSubmit={handleSubmit} className="glass rounded-2xl shadow-xl p-8 max-w-2xl mx-auto">
+      <h2 className="text-3xl font-bold mb-8">Vytvořit nový RPM plán</h2>
       
       <div className="mb-6">
-        <label className="block text-lg font-semibold text-gray-700 mb-2">
+        <label className="block text-lg font-semibold mb-3">
           Výsledek (Co chcete?)
         </label>
         <input
           type="text"
           value={result}
           onChange={(e) => setResult(e.target.value)}
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rpm-primary focus:border-rpm-primary"
+          className="w-full px-4 py-3 bg-white dark:bg-rpm-gray-800 text-rpm-gray-900 dark:text-white border border-rpm-gray-300 dark:border-rpm-gray-600 rounded-xl focus:ring-2 focus:ring-rpm-primary focus:border-transparent transition-all duration-200"
           placeholder="např. Zvýšit svou produktivitu o 50%"
           required
         />
       </div>
 
       <div className="mb-6">
-        <label className="block text-lg font-semibold text-gray-700 mb-2">
+        <label className="block text-lg font-semibold mb-3">
           Účel (Proč to chcete?)
         </label>
         <textarea
           value={purpose}
           onChange={(e) => setPurpose(e.target.value)}
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rpm-primary focus:border-rpm-primary"
+          className="w-full px-4 py-3 bg-white dark:bg-rpm-gray-800 text-rpm-gray-900 dark:text-white border border-rpm-gray-300 dark:border-rpm-gray-600 rounded-xl focus:ring-2 focus:ring-rpm-primary focus:border-transparent transition-all duration-200"
           rows={3}
           placeholder="např. Abych měl více času na rodinu a koníčky"
           required
@@ -86,7 +86,7 @@ export default function RPMPlanForm({ onSubmit }: RPMPlanFormProps) {
       </div>
 
       <div className="mb-6">
-        <label className="block text-lg font-semibold text-gray-700 mb-2">
+        <label className="block text-lg font-semibold mb-3">
           Masivní akční plán (MAP)
         </label>
         <div className="space-y-2">
@@ -96,7 +96,7 @@ export default function RPMPlanForm({ onSubmit }: RPMPlanFormProps) {
                 type="text"
                 value={action}
                 onChange={(e) => handleActionChange(index, e.target.value)}
-                className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rpm-primary focus:border-rpm-primary"
+                className="flex-1 px-4 py-3 bg-white dark:bg-rpm-gray-800 text-rpm-gray-900 dark:text-white border border-rpm-gray-300 dark:border-rpm-gray-600 rounded-xl focus:ring-2 focus:ring-rpm-primary focus:border-transparent transition-all duration-200"
                 placeholder={`Akce ${index + 1}`}
                 required={index === 0}
               />
@@ -104,7 +104,7 @@ export default function RPMPlanForm({ onSubmit }: RPMPlanFormProps) {
                 <button
                   type="button"
                   onClick={() => handleRemoveAction(index)}
-                  className="px-3 py-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                  className="px-3 py-3 text-rpm-danger hover:bg-rpm-danger/10 rounded-xl transition-all duration-200 font-semibold"
                 >
                   ✕
                 </button>
@@ -115,7 +115,7 @@ export default function RPMPlanForm({ onSubmit }: RPMPlanFormProps) {
         <button
           type="button"
           onClick={handleAddAction}
-          className="mt-2 px-4 py-2 text-rpm-primary border border-rpm-primary rounded-lg hover:bg-rpm-primary hover:text-white transition-colors"
+          className="mt-3 px-6 py-3 text-rpm-primary border-2 border-rpm-primary rounded-xl hover:bg-rpm-primary hover:text-white transition-all duration-200 font-semibold"
         >
           + Přidat akci
         </button>
@@ -124,7 +124,7 @@ export default function RPMPlanForm({ onSubmit }: RPMPlanFormProps) {
       <div className="flex gap-4">
         <button
           type="submit"
-          className="flex-1 px-6 py-3 bg-rpm-primary text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors"
+          className="flex-1 px-8 py-4 bg-gradient-to-r from-rpm-primary to-rpm-secondary text-white font-bold rounded-xl hover:shadow-lg transition-all duration-300 hover:scale-105"
         >
           Vytvořit plán
         </button>

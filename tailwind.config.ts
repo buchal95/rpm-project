@@ -9,11 +9,25 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        'rpm-primary': '#2563eb',
-        'rpm-secondary': '#7c3aed',
+        'rpm-primary': '#3b82f6',
+        'rpm-secondary': '#a855f7',
         'rpm-accent': '#10b981',
+        'rpm-danger': '#ef4444',
+        'rpm-warning': '#f59e0b',
         'rpm-dark': '#1e293b',
-        'rpm-light': '#f1f5f9',
+        'rpm-light': '#f8fafc',
+        'rpm-gray': {
+          50: '#f8fafc',
+          100: '#f1f5f9',
+          200: '#e2e8f0',
+          300: '#cbd5e1',
+          400: '#94a3b8',
+          500: '#64748b',
+          600: '#475569',
+          700: '#334155',
+          800: '#1e293b',
+          900: '#0f172a',
+        },
       },
       animation: {
         'level-up': 'levelUp 0.6s ease-out',

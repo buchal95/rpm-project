@@ -6,9 +6,10 @@ import { RPMPlan, MassiveAction } from '@/types/rpm';
 interface TaskListProps {
   plans: RPMPlan[];
   onCompleteAction: (planId: string, actionId: string) => void;
+  onDeletePlan: (planId: string) => void;
 }
 
-export default function TaskList({ plans, onCompleteAction }: TaskListProps) {
+export default function TaskList({ plans, onCompleteAction, onDeletePlan }: TaskListProps) {
   const [expandedPlans, setExpandedPlans] = useState<Set<string>>(new Set());
 
   const togglePlan = (planId: string) => {
@@ -33,16 +34,16 @@ export default function TaskList({ plans, onCompleteAction }: TaskListProps) {
 
   if (activePlans.length === 0) {
     return (
-      <div className="bg-white rounded-lg shadow-lg p-6 text-center">
-        <p className="text-gray-600">Zatím nemáte žádné aktivní plány.</p>
-        <p className="text-sm text-gray-500 mt-2">Vytvořte svůj první RPM plán a začněte sbírat XP!</p>
+      <div className="glass rounded-2xl shadow-xl p-8 text-center">
+        <p className="text-lg text-rpm-gray-600">Zatím nemáte žádné aktivní plány.</p>
+        <p className="text-rpm-gray-500 mt-2">Vytvořte svůj první RPM plán a začněte sbírat XP!</p>
       </div>
     );
   }
 
   return (
     <div className="space-y-4">
-      <h2 className="text-2xl font-bold text-gray-800">Aktivní plány</h2>
+      <h2 className="text-3xl font-bold mb-6">Aktivní plány</h2>
       
       {activePlans.map(plan => {
         const isExpanded = expandedPlans.has(plan.id);
@@ -51,43 +52,62 @@ export default function TaskList({ plans, onCompleteAction }: TaskListProps) {
         const progress = totalActions > 0 ? (completedActions / totalActions) * 100 : 0;
 
         return (
-          <div key={plan.id} className="bg-white rounded-lg shadow-lg overflow-hidden">
-            <div 
-              className="p-6 cursor-pointer hover:bg-gray-50 transition-colors"
-              onClick={() => togglePlan(plan.id)}
-            >
+          <div key={plan.id} className="glass rounded-2xl shadow-xl overflow-hidden glass-hover">
+            <div className="p-6">
               <div className="flex items-center justify-between">
-                <div className="flex-1">
-                  <h3 className="text-xl font-semibold text-gray-800">{plan.result}</h3>
-                  <p className="text-gray-600 mt-1">{plan.purpose}</p>
+                <div 
+                  className="flex-1 cursor-pointer"
+                  onClick={() => togglePlan(plan.id)}
+                >
+                  <h3 className="text-xl font-semibold">{plan.result}</h3>
+                  <p className="text-rpm-gray-600 mt-1">{plan.purpose}</p>
                 </div>
                 <div className="flex items-center gap-4">
                   <div className="text-right">
-                    <div className="text-sm text-gray-600">Postup</div>
+                    <div className="text-sm text-rpm-gray-600">Postup</div>
                     <div className="text-lg font-semibold">{completedActions}/{totalActions}</div>
                   </div>
-                  <div className={`transform transition-transform ${isExpanded ? 'rotate-180' : ''}`}>
-                    ▼
-                  </div>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (confirm('Opravdu chcete smazat tento plán?')) {
+                        onDeletePlan(plan.id);
+                      }
+                    }}
+                    className="p-2 text-rpm-danger hover:bg-rpm-danger/10 rounded-xl transition-all duration-200"
+                    title="Smazat plán"
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                  </button>
+                  <button
+                    onClick={() => togglePlan(plan.id)}
+                    className={`p-2 transform transition-transform ${isExpanded ? 'rotate-180' : ''}`}
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
                 </div>
               </div>
               
-              <div className="mt-4 h-2 bg-gray-200 rounded-full overflow-hidden">
+              <div className="mt-4 h-3 bg-rpm-gray-200/50 rounded-full overflow-hidden">
                 <div 
-                  className="h-full bg-gradient-to-r from-rpm-primary to-rpm-accent transition-all duration-500"
+                  className="h-full bg-gradient-to-r from-rpm-primary to-rpm-accent transition-all duration-500 rounded-full shimmer"
                   style={{ width: `${progress}%` }}
                 />
               </div>
             </div>
 
             {isExpanded && (
-              <div className="border-t border-gray-200 p-6 pt-0">
-                <div className="space-y-2 mt-4">
+              <div className="border-t border-rpm-gray-200/30 p-6 pt-0">
+                <div className="space-y-3 mt-6">
                   {plan.massiveActionPlan.map(action => (
                     <div 
                       key={action.id} 
-                      className={`flex items-center gap-3 p-3 rounded-lg ${
-                        action.completed ? 'bg-gray-50 opacity-75' : 'hover:bg-gray-50'
+                      className={`flex items-center gap-3 p-4 rounded-xl transition-all duration-200 ${
+                        action.completed ? 'bg-rpm-gray-100/50 opacity-75' : 'hover:bg-white/50'
                       }`}
                     >
                       <button
@@ -97,10 +117,10 @@ export default function TaskList({ plans, onCompleteAction }: TaskListProps) {
                             onCompleteAction(plan.id, action.id);
                           }
                         }}
-                        className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${
+                        className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all duration-200 ${
                           action.completed 
                             ? 'bg-rpm-accent border-rpm-accent' 
-                            : 'border-gray-300 hover:border-rpm-accent'
+                            : 'border-rpm-gray-300 hover:border-rpm-accent hover:scale-110'
                         }`}
                         disabled={action.completed}
                       >
@@ -110,7 +130,7 @@ export default function TaskList({ plans, onCompleteAction }: TaskListProps) {
                       </button>
                       
                       <div className="flex-1">
-                        <span className={action.completed ? 'line-through text-gray-500' : ''}>
+                        <span className={`transition-all duration-200 ${action.completed ? 'line-through text-rpm-gray-500' : ''}`}>
                           {action.action}
                         </span>
                       </div>
